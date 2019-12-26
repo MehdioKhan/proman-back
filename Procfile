@@ -1,0 +1,1 @@
+web: gunicorn proman_back.wsgi
