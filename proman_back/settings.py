@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'project.tagging',
     'project',
+    'project.task',
 ]
 
 MIDDLEWARE = [
