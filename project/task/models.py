@@ -20,6 +20,17 @@ class Task(models.Model):
                                on_delete=models.CASCADE,
                                related_name='tasks',
                                verbose_name=_('status'))
+    assigned_to = models.ForeignKey(to=get_user_model(),
+                                    null=True,blank=True,
+                                    default=None,
+                                    related_name='assigned_tasks',
+                                    on_delete=models.CASCADE,
+                                    verbose_name=_('assigned to'))
+    attachments = models.ForeignKey(to='attachments.Attachments',
+                                    blank=True,null=True,
+                                    related_name='attachments',
+                                    on_delete=models.CASCADE,
+                                    verbose_name=_("attachments"))
 
     class Meta:
         verbose_name = 'task'
