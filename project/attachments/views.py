@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import Attachments
+from .serializers import AttachmentsSerializer
 
-# Create your views here.
+
+class AttachmentsViewSet(viewsets.ModelViewSet):
+    serializer_class = AttachmentsSerializer
+    queryset = Attachments.objects.all()
