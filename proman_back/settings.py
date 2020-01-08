@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'project.tagging',
     'project',
     'project.task',
+    'project.attachments',
 ]
 
 MIDDLEWARE = [
