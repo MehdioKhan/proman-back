@@ -20,6 +20,10 @@ class Task(models.Model):
                                on_delete=models.CASCADE,
                                related_name='tasks',
                                verbose_name=_('status'))
+    subject = models.TextField(blank=False,null=False,
+                               verbose_name=_("subject"))
+    description = models.TextField(blank=True,null=False,
+                                   verbose_name=_("description"))
     assigned_to = models.ForeignKey(to=get_user_model(),
                                     null=True,blank=True,
                                     default=None,
@@ -36,3 +40,20 @@ class Task(models.Model):
         verbose_name = 'task'
         verbose_name_plural = 'tasks'
         ordering = ('project','status')
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(to=get_user_model(),
+                             blank=False,null=False,
+                             related_name='comments',
+                             on_delete=models.CASCADE,
+                             verbose_name=_("user"))
+    task = models.ForeignKey(to=Task,blank=False,null=False,
+                             related_name='comments',
+                             on_delete=models.CASCADE,
+                             verbose_name=_("task"))
+    text = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = 'comment'
+        verbose_name_plural = 'comments'
