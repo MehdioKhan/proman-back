@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'project.tagging',
     'project',
-    'project.task'
+    'project.task',
+    'project.attachments',
 ]
 
 MIDDLEWARE = [

@@ -16,11 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from rest_framework_swagger.views import get_swagger_view
+from .routers import router
+
 
 scheme_view = get_swagger_view('Proman API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('doc/',scheme_view),
+<<<<<<< HEAD
     path('api/v1/',include('project.urls',namespace='project')),
+=======
+    path('api/v1/',include(router.urls)),
+>>>>>>> khan
 ]
