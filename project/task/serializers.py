@@ -11,10 +11,13 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True,read_only=True)
+    owner = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
 
     class Meta:
         model = Task
-        fields = ('subject','description','assigned_to','attachments',
+        fields = ('owner','project','subject','description','assigned_to',
                   'comments','status')
 
 

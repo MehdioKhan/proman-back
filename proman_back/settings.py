@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'project',
     'project.task',
     'project.attachments',
+    'project.likes',
 ]
 
 MIDDLEWARE = [
