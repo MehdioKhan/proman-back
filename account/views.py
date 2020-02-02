@@ -1,12 +1,13 @@
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.status import HTTP_400_BAD_REQUEST,HTTP_200_OK,HTTP_404_NOT_FOUND
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework import generics
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from .serializers import UserSingInSerializer,UserSerializer,UserSignupSerializer
 from .authentication import token_expire_handler,expires_in
+from .models import User
 
 
 @api_view(['POST'])
@@ -48,6 +49,7 @@ def delete_token(user):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def logout(request):
     delete_token(request.user)
     return Response({'details':'Logged out'},status=HTTP_200_OK)
@@ -56,3 +58,4 @@ def logout(request):
 class UserSignUp(generics.CreateAPIView):
     serializer_class = UserSignupSerializer
     permission_classes = [AllowAny,]
+    queryset = User.objects.all()

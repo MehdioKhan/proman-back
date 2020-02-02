@@ -1,10 +1,11 @@
-from django.urls import path,include
+from django.urls import path
 from . import views
-from .routers import router
 
 
 app_name = 'account'
 
 urlpatterns = [
-    path('api/v1/',include(router.urls)),
+    path('login',views.login),
+    path('logout',views.logout),
+    path('signup',views.UserSignUp.as_view()),
 ]

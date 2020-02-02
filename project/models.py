@@ -55,7 +55,7 @@ class Membership(models.Model):
         verbose_name = 'membership'
         verbose_name_plural = 'memberships'
         unique_together = ('user', 'project')
-        ordering = ('project', 'user__username', 'user__email')
+        ordering = ('project', 'user__email')
 
 
 class Role(models.Model):

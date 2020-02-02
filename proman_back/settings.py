@@ -122,6 +122,9 @@ TOKEN_EXPIRED_AFTER_SECONDS = 60 * 60 * 24 * 3
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
+
+AUTH_USER_MODEL = 'account.User'
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
