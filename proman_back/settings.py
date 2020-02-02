@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_swagger',
+    'account',
     'project.tagging',
     'project',
     'project.task',
@@ -111,9 +113,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'account.authentication.ExpiringTokenAuthentication',
+    ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
-
+TOKEN_EXPIRED_AFTER_SECONDS = 60 * 60 * 24 * 3
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
