@@ -25,4 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('doc/',scheme_view),
     path('api/v1/',include(router.urls)),
+    path('api/v1/account/',include('account.urls')),
 ]

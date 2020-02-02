@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Attachments
+from .models import Attachment
 
-admin.site.register(Attachments)
+admin.site.register(Attachment)

@@ -1,10 +1,12 @@
 from rest_framework import viewsets,response
+from rest_framework.permissions import IsAuthenticated
 from .serializers import TaskSerializer,TaskListSerializer
 from .models import Task
 
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
+    permission_classes = [IsAuthenticated,]
 
     def get_serializer_class(self):
         if self.action == 'list':

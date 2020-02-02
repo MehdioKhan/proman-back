@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from django.contrib.contenttypes.fields import GenericRelation
+from project.tagging.models import TagMixin
+from project.due_date.models import DueDateMixin
 
 
-class Task(models.Model):
+class Task(TagMixin,DueDateMixin,models.Model):
     owner = models.ForeignKey(to=get_user_model(),
                               null=True,blank=True,
                               default=None,
@@ -30,11 +33,7 @@ class Task(models.Model):
                                     related_name='assigned_tasks',
                                     on_delete=models.CASCADE,
                                     verbose_name=_('assigned to'))
-    attachments = models.ForeignKey(to='attachments.Attachments',
-                                    blank=True,null=True,
-                                    related_name='attachments',
-                                    on_delete=models.CASCADE,
-                                    verbose_name=_("attachments"))
+    attachments = GenericRelation('attachments.Attachment')
 
     class Meta:
         verbose_name = 'task'
