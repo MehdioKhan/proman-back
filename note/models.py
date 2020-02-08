@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 
-class note(models.Model):
+class Note(models.Model):
     user = models.ForeignKey(to=get_user_model(),
                              on_delete=models.CASCADE,
                              null=False,blank=False,
