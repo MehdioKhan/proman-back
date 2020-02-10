@@ -1,5 +1,6 @@
 from rest_framework import viewsets,response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import BasicAuthentication,TokenAuthentication
 from .serializers import TaskSerializer,TaskListSerializer,\
     CommentSerializer
 from .models import Task,Comment
@@ -8,6 +9,7 @@ from .models import Task,Comment
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     permission_classes = [IsAuthenticated,]
+    authentication_classes = (BasicAuthentication, TokenAuthentication,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -25,3 +27,4 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
     permission_classes = [IsAuthenticated,]
+    authentication_classes = (BasicAuthentication, TokenAuthentication,)
