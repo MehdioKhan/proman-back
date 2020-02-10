@@ -5,15 +5,21 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Note(models.Model):
-    user = models.ForeignKey(to=get_user_model(),
+    author = models.ForeignKey(to=get_user_model(),
                              on_delete=models.CASCADE,
                              null=False,blank=False,
                              related_name='notes',
                              verbose_name=_('user'))
 
-    created = models.DateTimeField(auto_now_add=True,
+    title = models.CharField(verbose_name=_('Note Title'),max_length=100)
+
+    created_datetime = models.DateTimeField(auto_now_add=True,
                                    null=False, blank=False,
                                    verbose_name=_('created date'))
 
-    meme  = models.TextField(verbose_name=_('Note Content'))
+    description  = models.TextField(verbose_name=_('Note Content'))
+
+    class Meta:
+        verbose_name = _("Note")
+        verbose_name_plural = _("Notes")
 
