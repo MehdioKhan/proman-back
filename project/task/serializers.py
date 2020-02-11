@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Task,Comment
 from project.due_date.serializers import DueDateSerializerMixin
+from django.utils import timezone
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -20,7 +21,7 @@ class TaskSerializer(DueDateSerializerMixin,serializers.ModelSerializer):
         model = Task
         fields = ('owner','project','subject','description','assigned_to',
                   'comments','status','due_date','due_description',
-                  'due_status')
+                  'due_days')
 
 
 class TaskListSerializer(serializers.ModelSerializer):
