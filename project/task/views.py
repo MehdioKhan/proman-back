@@ -9,7 +9,6 @@ from .models import Task,Comment
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     permission_classes = [IsAuthenticated,]
-    authentication_classes = (BasicAuthentication, TokenAuthentication,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -27,4 +26,3 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
     permission_classes = [IsAuthenticated,]
-    authentication_classes = (BasicAuthentication, TokenAuthentication,)
