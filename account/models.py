@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
+from django.utils.translation import gettext_lazy as _
+from django.contrib.postgres.fields import ArrayField
+from django.utils.text import slugify
+from permissions.choices import MEMBERS_PERMISSIONS
 
 
 class UserManager(BaseUserManager):
@@ -48,4 +52,32 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class Role(models.Model):
+    name = models.CharField(max_length=200, null=False, blank=False,
+                            verbose_name=_("Name"))
+    slug = models.SlugField(max_length=250, null=False, blank=True,
+                            verbose_name=_("Slug"))
+    project = models.ForeignKey(to='project.Project',blank=False,
+                                null=False,related_name='roles',
+                                verbose_name=_('Project'),
+                                on_delete=models.CASCADE)
+    permissions = ArrayField(models.TextField(null=False,
+                            blank=False, choices=MEMBERS_PERMISSIONS),
+                            null=True, blank=True, default=[],
+                             verbose_name=_("permissions"))
+
+    class Meta:
+        verbose_name = _("Role")
+        verbose_name_plural = _("Roles")
+        ordering = ("slug",)
+        unique_together = (("slug", "project"),)
+
+    def save(self,*args,**kwargs):
+        self.slug = slugify(self.name)
+        super(Role, self).save(*args,**kwargs)
+
+    def __str__(self):
+        return self.name
 

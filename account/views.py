@@ -5,7 +5,8 @@ from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework import generics
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
-from .serializers import UserSingInSerializer,UserSerializer,UserSignupSerializer
+from .serializers import UserSingInSerializer,UserSerializer,\
+    UserSignupSerializer
 from .authentication import token_expire_handler,expires_in
 from .models import User
 
@@ -58,4 +59,9 @@ def logout(request):
 class UserSignUp(generics.CreateAPIView):
     serializer_class = UserSignupSerializer
     permission_classes = [AllowAny,]
+    queryset = User.objects.all()
+
+
+class UsersList(generics.ListAPIView):
+    serializer_class = UserSerializer
     queryset = User.objects.all()

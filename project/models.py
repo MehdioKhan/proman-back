@@ -43,7 +43,7 @@ class Membership(models.Model):
                                 related_name='memberships',
                                 on_delete=models.CASCADE,
                                 verbose_name=_('project'))
-    role = models.ForeignKey(to='Role',
+    role = models.ForeignKey(to='account.Role',
                              related_name='memberships',
                              on_delete=models.CASCADE,
                              verbose_name=_('role'))
@@ -56,11 +56,6 @@ class Membership(models.Model):
         verbose_name_plural = 'memberships'
         unique_together = ('user', 'project')
         ordering = ('project', 'user__email')
-
-
-class Role(models.Model):
-    # Should use user Roles that will implement by Milad
-    pass
 
 
 class TaskStatus(models.Model):
