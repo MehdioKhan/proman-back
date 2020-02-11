@@ -8,7 +8,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('user','task','text')
+        fields = ('id','user','task','text')
 
 
 class TaskSerializer(DueDateSerializerMixin,serializers.ModelSerializer):

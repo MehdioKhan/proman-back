@@ -5,7 +5,7 @@ from .models import Project,Membership,TaskStatus
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ('id','name','description','owner','members')
+        fields = ('id','name','description','owner','members','tags')
 
 
 class MembershipSerializer(serializers.ModelSerializer):
