@@ -5,16 +5,17 @@ from .models import Project,Membership,TaskStatus
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = ('id','name','description','owner','members')
 
 
 class MembershipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
-        fields = '__all__'
+        fields = ('id','user','project','role','is_admin')
 
 
 class TaskStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskStatus
-        fields = '__all__'
+        fields = ('id','name','color','project')
+
