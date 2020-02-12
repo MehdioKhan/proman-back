@@ -1,8 +1,6 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
-User = get_user_model()
+from .models import User,Role
 
 
 class UserSingInSerializer(serializers.Serializer):
@@ -31,3 +29,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'email')
+
+
+class RoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Role
+        fields = ('id','name','project','permissions')
+

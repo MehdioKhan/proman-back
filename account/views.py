@@ -2,13 +2,13 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.status import HTTP_400_BAD_REQUEST,HTTP_200_OK,HTTP_404_NOT_FOUND
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny,IsAuthenticated
-from rest_framework import generics
+from rest_framework import generics,viewsets
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from .serializers import UserSingInSerializer,UserSerializer,\
-    UserSignupSerializer
+    UserSignupSerializer,RoleSerializer
 from .authentication import token_expire_handler,expires_in
-from .models import User
+from .models import User,Role
 
 
 @api_view(['POST'])
@@ -65,3 +65,18 @@ class UserSignUp(generics.CreateAPIView):
 class UsersList(generics.ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
+
+class RoleViewSet(viewsets.ModelViewSet):
+    serializer_class = RoleSerializer
+    queryset = Role.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        project = request.GET.get('project',None)
+        if not project:
+            return Response({'error':'project not provided'},404)
+        else:
+            roles = self.get_queryset().filter(project=project)
+            serializer = self.get_serializer_class()(roles,many=True)
+            return Response(serializer.data)
+
