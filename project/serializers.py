@@ -3,6 +3,10 @@ from .models import Project,Membership,TaskStatus
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    owner = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         model = Project
         fields = ('id','name','description','owner','members','tags')

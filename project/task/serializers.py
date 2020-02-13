@@ -1,10 +1,12 @@
 from rest_framework import serializers
 from .models import Task,Comment
 from project.due_date.serializers import DueDateSerializerMixin
-from django.utils import timezone
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
 
     class Meta:
         model = Comment
