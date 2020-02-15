@@ -3,7 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication,\
     TokenAuthentication
 from .serializers import TaskStatusSerializer,\
-    ProjectSerializer,MembershipSerializer
+    ProjectSerializer,CreateMembershipSerializer,\
+    RetrieveMembershipSerializer
 from .models import Project,TaskStatus,Membership
 
 
@@ -22,8 +23,12 @@ class TaskStatusViewSet(viewsets.ModelViewSet):
 
 
 class MembershipViewSet(viewsets.ModelViewSet):
-    serializer_class = MembershipSerializer
     queryset = Membership.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [BasicAuthentication,TokenAuthentication]
 
+    def get_serializer_class(self):
+        if self.action in ['list','retrieve']:
+            return RetrieveMembershipSerializer
+        else:
+            return CreateMembershipSerializer
