@@ -3,11 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import TaskSerializer,TaskListSerializer,\
     CommentSerializer
 from .models import Task,Comment
+from permissions.permissions import TaskPermission
 
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated,TaskPermission]
 
     def get_serializer_class(self):
         if self.action == 'list':
