@@ -65,7 +65,7 @@ class Role(models.Model):
                                 on_delete=models.CASCADE)
     permissions = ArrayField(models.TextField(null=False,
                             blank=False, choices=MEMBERS_PERMISSIONS),
-                            null=True, blank=True, default=[],
+                            null=True, blank=True, default=list,
                              verbose_name=_("permissions"))
 
     class Meta:
