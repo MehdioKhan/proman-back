@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'project.attachments',
     'project.likes',
     'note',
+    'blog',
 ]
 
 MIDDLEWARE = [
