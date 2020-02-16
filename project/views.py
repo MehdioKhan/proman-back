@@ -12,7 +12,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     authentication_classes = [BasicAuthentication,TokenAuthentication]
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
+        if self.action in ['retrieve','list']:
             return serializers.RetrieveProjectSerializer
         else:
             return serializers.ProjectSerializer
