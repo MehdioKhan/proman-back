@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers,validators
 from django.utils.translation import gettext_lazy as _
 from .models import User,Role
 
@@ -35,4 +35,9 @@ class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = ('id','name','project','permissions')
-
+        validators = [
+            validators.UniqueTogetherValidator(
+                queryset=Role.objects.all(),
+                fields=['name', 'project']
+            )
+        ]
