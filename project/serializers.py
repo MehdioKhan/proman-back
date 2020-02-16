@@ -41,3 +41,13 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ('id','name','description','owner','members','tags')
+
+
+class RetrieveProjectSerializer(serializers.ModelSerializer):
+    members = RetrieveMembershipSerializer(source='memberships',
+                                           many=True,
+                                           read_only=True)
+
+    class Meta:
+        model = Project
+        fields = ('id','name','description','owner','members','tags')

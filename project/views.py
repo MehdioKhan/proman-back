@@ -7,10 +7,15 @@ from .models import Project,TaskStatus,Membership
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.ProjectSerializer
     queryset = Project.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [BasicAuthentication,TokenAuthentication]
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return serializers.RetrieveProjectSerializer
+        else:
+            return serializers.ProjectSerializer
 
 
 class TaskStatusViewSet(viewsets.ModelViewSet):
