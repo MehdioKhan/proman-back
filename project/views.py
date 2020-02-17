@@ -24,6 +24,14 @@ class TaskStatusViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [BasicAuthentication,TokenAuthentication]
 
+    def list(self, request, *args, **kwargs):
+        project = request.GET.get('project',None)
+        if not project:
+            return response.Response({'error':'project not provided'},404)
+        statuses = self.queryset.filter(project=project)
+        serializer = self.get_serializer_class()(statuses,many=True)
+        return response.Response(serializer.data)
+
 
 class MembershipViewSet(viewsets.ModelViewSet):
     queryset = Membership.objects.all()
