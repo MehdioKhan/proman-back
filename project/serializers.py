@@ -43,11 +43,22 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ('id','name','description','owner','members','tags')
 
 
-class RetrieveProjectSerializer(serializers.ModelSerializer):
-    members = RetrieveMembershipSerializer(source='memberships',
-                                           many=True,
-                                           read_only=True)
+class ListProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ('id','name','description','owner','members','tags')
+        fields = ('id','name','description','owner')
+
+
+class RetrieveProjectSerializer(serializers.ModelSerializer):
+    permissions = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Project
+        fields = ('id','name','description','owner','members','permissions','tags')
+
+    def get_permissions(self,obj):
+        user = self.context.get('request').user
+        membership = obj.memberships.filter(user=user).first()
+        permissions = membership.role.permissions
+        return permissions
