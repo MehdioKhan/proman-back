@@ -1,6 +1,7 @@
 from rest_framework import serializers,validators
 from django.utils.translation import gettext_lazy as _
 from .models import User,Role
+from django.utils.text import slugify
 
 
 class UserSingInSerializer(serializers.Serializer):

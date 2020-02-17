@@ -57,8 +57,6 @@ class User(AbstractUser):
 class Role(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False,
                             verbose_name=_("Name"))
-    slug = models.SlugField(max_length=250, null=False, blank=True,
-                            verbose_name=_("Slug"))
     project = models.ForeignKey(to='project.Project',blank=False,
                                 null=False,related_name='roles',
                                 verbose_name=_('Project'),
@@ -71,8 +69,8 @@ class Role(models.Model):
     class Meta:
         verbose_name = _("Role")
         verbose_name_plural = _("Roles")
-        ordering = ("slug",)
-        unique_together = (("slug", "project"),)
+        ordering = ("name",)
+        unique_together = (("name", "project"),)
 
     def save(self,*args,**kwargs):
         self.slug = slugify(self.name)
