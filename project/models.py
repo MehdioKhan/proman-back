@@ -61,8 +61,6 @@ class Membership(models.Model):
 class TaskStatus(models.Model):
     name = models.CharField(max_length=55,null=False,blank=False,
                             verbose_name=_('name'))
-    slug = models.SlugField(max_length=75,null=False,blank=True,
-                            verbose_name=_('slug'))
     color = models.CharField(max_length=20,null=False,blank=False,
                              verbose_name=_('color'))
     project = models.ForeignKey(to='Project',on_delete=models.CASCADE,
@@ -73,8 +71,7 @@ class TaskStatus(models.Model):
         verbose_name = 'task status'
         verbose_name_plural = 'task statuses'
         ordering = ('project','name')
-        unique_together = (('project','name'),('project','slug'))
+        unique_together = (('project','name'),)
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super().save(*args,**kwargs)
+    def __str__(self):
+        return self.name
