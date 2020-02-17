@@ -10,7 +10,7 @@ router = routers.DefaultRouter()
 
 router.register('tasks',task_views.TaskViewSet)
 router.register('comment',task_views.CommentViewSet)
-router.register('projects',project_views.ProjectViewSet)
+router.register('projects',project_views.ProjectViewSet,basename='projects')
 router.register('memberships',project_views.MembershipViewSet)
 router.register('task_statuses',project_views.TaskStatusViewSet)
 router.register('attachments',attachment_views.AttachmentsViewSet)

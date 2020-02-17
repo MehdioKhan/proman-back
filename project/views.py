@@ -7,7 +7,6 @@ from .models import Project,TaskStatus,Membership
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    queryset = Project.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [BasicAuthentication,TokenAuthentication]
 
@@ -16,6 +15,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return serializers.RetrieveProjectSerializer
         else:
             return serializers.ProjectSerializer
+
+    def get_queryset(self):
+        queryset = Project.objects.filter(owner=self.request.user,
+                                          memberships__user=self.request.user)
+        return queryset
 
 
 class TaskStatusViewSet(viewsets.ModelViewSet):
