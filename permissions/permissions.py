@@ -22,3 +22,20 @@ class TaskPermission(permissions.BasePermission):
             else:
                 return False
 
+
+class CommentPermission(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        project = obj.task.project
+        memberships = project.memberships.filter(user=request.user).first()
+        perms = []
+        if not memberships:
+            return False
+        else:
+            perms = memberships.role.permissions
+        if view.action == 'create':
+            return False
+        if view.action != 'retrieve':
+            return 'comment_task' in perms
+        else:
+            return False

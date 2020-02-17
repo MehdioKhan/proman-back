@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import TaskSerializer,TaskListSerializer,\
     CommentSerializer
 from .models import Task,Comment
-from permissions.permissions import TaskPermission
+from permissions.permissions import TaskPermission,CommentPermission
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -28,7 +28,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated,CommentPermission]
 
     def list(self, request, *args, **kwargs):
         task = request.GET.get('task',None)
