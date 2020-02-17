@@ -33,7 +33,6 @@ class Task(TagMixin,DueDateMixin,models.Model):
                                     related_name='assigned_tasks',
                                     on_delete=models.CASCADE,
                                     verbose_name=_('assigned to'))
-    attachments = GenericRelation('attachments.Attachment')
 
     class Meta:
         verbose_name = 'task'
