@@ -6,6 +6,8 @@ class TaskPermission(permissions.BasePermission):
         def has_object_permission(self, request, view, obj):
             project = obj.project
             memberships = project.memberships.filter(user=request.user).first()
+            if memberships.is_admin:
+                return True
             perms = []
             if not memberships:
                 return False
@@ -28,6 +30,8 @@ class CommentPermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         project = obj.task.project
         memberships = project.memberships.filter(user=request.user).first()
+        if memberships.is_admin:
+            return True
         perms = []
         if not memberships:
             return False
