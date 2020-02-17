@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Project,Membership,TaskStatus
 from account.serializers import UserSerializer,RoleSerializer
+from account.models import Role
 
 
 class CreateMembershipSerializer(serializers.ModelSerializer):
@@ -41,6 +42,19 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ('id','name','description','owner','members','tags')
+
+    def create(self, validated_data):
+        permissions = ['change_project','delete_project','add_member',
+                       'remove_member']
+        project = Project.objects.create(**validated_data)
+        role = Role.objects.create(name='admin',project=project)
+        role.permissions = permissions
+        role.save()
+        mebership = Membership.objects.create(user=project.owner,
+                                              project=project,
+                                              role=role,
+                                              is_admin=True)
+        return project
 
 
 class ListProjectSerializer(serializers.ModelSerializer):
