@@ -25,7 +25,7 @@ MEMBERS_PERMISSIONS = [
 ]
 
 ADMINS_PERMISSIONS = [
-    ('modify_project', _('Modify project')),
+    ('change_project', _('Change project')),
     ('delete_project', _('Delete project')),
     ('add_member', _('Add member')),
     ('remove_member', _('Remove member')),
