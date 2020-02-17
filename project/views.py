@@ -9,7 +9,8 @@ from .models import Project,TaskStatus,Membership
 class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [BasicAuthentication,TokenAuthentication]
-
+    queryset = Project.objects.all()
+    
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return serializers.RetrieveProjectSerializer
@@ -18,11 +19,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
         else:
             return serializers.ProjectSerializer
 
-    def get_queryset(self):
-        owned_projects = Project.objects.filter(owner=self.request.user)
-        member_projects = Project.objects.filter(memberships__user=self.request.user)
-        queryset = owned_projects.union(member_projects)
-        return queryset
+    # def get_queryset(self):
+    #     owned_projects = Project.objects.filter(owner=self.request.user)
+    #     member_projects = Project.objects.filter(memberships__user=self.request.user)
+    #     queryset = owned_projects.union(member_projects)
+    #     return queryset
 
 
 class TaskStatusViewSet(viewsets.ModelViewSet):
