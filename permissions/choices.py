@@ -13,10 +13,13 @@ ANON_PERMISSIONS = [
 
 MEMBERS_PERMISSIONS = [
     ('view_project', _('View project')),
+    ('add_project', _('Add project')),
+    ('change_project',_('Modify project')),
+    ('delete_project',_('Delete project')),
     # Task permissions
-    ('view_tasks', _('View tasks')),
+    ('view_task', _('View task')),
     ('add_task', _('Add task')),
-    ('modify_task', _('Modify task')),
+    ('change_task', _('Modify task')),
     ('comment_task', _('Comment task')),
     ('delete_task', _('Delete task')),
 ]
