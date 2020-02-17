@@ -7,8 +7,7 @@ class AttachmentsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Attachment
-        fields = ('id','owner','project','name','file','size',
-                  'url','object_id')
+        fields = ('id','owner','task','name','size','url')
 
     def get_url(self,obj):
         return obj.file.url
