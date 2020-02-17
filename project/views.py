@@ -11,14 +11,17 @@ class ProjectViewSet(viewsets.ModelViewSet):
     authentication_classes = [BasicAuthentication,TokenAuthentication]
 
     def get_serializer_class(self):
-        if self.action in ['retrieve','list']:
+        if self.action == 'retrieve':
             return serializers.RetrieveProjectSerializer
+        elif self.action == 'list':
+            return serializers.ListProjectSerializer
         else:
             return serializers.ProjectSerializer
 
     def get_queryset(self):
-        queryset = Project.objects.filter(owner=self.request.user,
-                                          memberships__user=self.request.user)
+        owned_projects = Project.objects.filter(owner=self.request.user)
+        member_projects = Project.objects.filter(memberships__user=self.request.user)
+        queryset = owned_projects.union(member_projects)
         return queryset
 
 
