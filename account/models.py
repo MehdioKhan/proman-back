@@ -4,7 +4,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.fields import ArrayField
 from django.utils.text import slugify
-from permissions.choices import MEMBERS_PERMISSIONS
+from permissions.choices import MEMBERS_PERMISSIONS,ADMINS_PERMISSIONS
 
 
 class UserManager(BaseUserManager):
@@ -61,10 +61,10 @@ class Role(models.Model):
                                 null=False,related_name='roles',
                                 verbose_name=_('Project'),
                                 on_delete=models.CASCADE)
-    permissions = ArrayField(models.TextField(null=False,
-                            blank=False, choices=MEMBERS_PERMISSIONS),
-                            null=True, blank=True, default=list,
-                             verbose_name=_("permissions"))
+    permissions = ArrayField(models.TextField(null=False,blank=False,
+                    choices=MEMBERS_PERMISSIONS+ADMINS_PERMISSIONS),
+                    null=True, blank=True, default=list,
+                    verbose_name=_("permissions"))
 
     class Meta:
         verbose_name = _("Role")
