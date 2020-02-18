@@ -1,14 +1,13 @@
 from rest_framework import viewsets,response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import BasicAuthentication,\
-    TokenAuthentication
 from . import serializers
 from .models import Project,TaskStatus,Membership
+from permissions.permissions import ProjectAdminPermission,\
+    ProjectMembershipPermission
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated,]
-    authentication_classes = [BasicAuthentication,TokenAuthentication]
+    permission_classes = [IsAuthenticated,ProjectAdminPermission]
     queryset = Project.objects.all()
     
     def get_serializer_class(self):
@@ -19,18 +18,20 @@ class ProjectViewSet(viewsets.ModelViewSet):
         else:
             return serializers.ProjectSerializer
 
-    # def get_queryset(self):
-    #     owned_projects = Project.objects.filter(owner=self.request.user)
-    #     member_projects = Project.objects.filter(memberships__user=self.request.user)
-    #     queryset = owned_projects.union(member_projects)
-    #     return queryset
+    def get_queryset(self):
+        if self.action == 'list':
+            owned_projects = Project.objects.filter(owner=self.request.user)
+            member_projects = Project.objects.filter(memberships__user=self.request.user)
+            queryset = owned_projects.union(member_projects)
+            return queryset
+        else:
+            return super(ProjectViewSet, self).get_queryset()
 
 
 class TaskStatusViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.TaskStatusSerializer
     queryset = TaskStatus.objects.all()
     permission_classes = [IsAuthenticated,]
-    authentication_classes = [BasicAuthentication,TokenAuthentication]
 
     def list(self, request, *args, **kwargs):
         project = request.GET.get('project',None)
@@ -43,8 +44,7 @@ class TaskStatusViewSet(viewsets.ModelViewSet):
 
 class MembershipViewSet(viewsets.ModelViewSet):
     queryset = Membership.objects.all()
-    permission_classes = [IsAuthenticated,]
-    authentication_classes = [BasicAuthentication,TokenAuthentication]
+    permission_classes = [IsAuthenticated,ProjectMembershipPermission]
 
     def list(self, request, *args, **kwargs):
         project = request.GET.get('project',None)
