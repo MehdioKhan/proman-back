@@ -20,7 +20,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         project = request.GET.get('project',None)
         if not project:
             return response.Response({'error':'project not provided'},404)
-        tasks = self.queryset.filter(owner=request.user,project=project)
+        tasks = self.queryset.filter(project=project)
         serializer = self.get_serializer_class()(tasks,many=True)
         return response.Response(serializer.data)
 
